@@ -80,6 +80,7 @@ class AlteredBertForSequenceClassification(BertPreTrainedModel):
         logits = self.classifier(pooled_output)
 
         loss = None
+        print(labels)
         if labels is not None:
             if self.num_labels == 1:
                 #  We are doing regression

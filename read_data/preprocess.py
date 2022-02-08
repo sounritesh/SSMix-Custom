@@ -7,6 +7,7 @@ import numpy as np
 from transformers import *
 from datasets import load_dataset, load_metric, concatenate_datasets
 import torch
+import pandas as pd
 
 task_to_keys = {
     "mnli": ("premise", "hypothesis"),
@@ -18,6 +19,8 @@ task_to_keys = {
     "sst2": ("sentence", None),
     "trec": ("text", None),
     "anli": ("premise", "hypothesis"),
+    "custom": ("Text",  None
+    )
 }
 
 
@@ -36,6 +39,8 @@ class PreProcessor:
             self.dataset_1 = load_dataset('xnli', 'ar', split='train[:800]')
             self.dataset_2 = load_dataset('xnli', 'hi', split='train[800:1600]')
             self.datasets = concatenate_datasets([self.dataset_1, self.dataset_2]).shuffle(seed=seed_num)
+        elif self.task_name == 'custom':
+            self.datasets = pd.read_csv("PATH")
         else: # glue task
             self.datasets = load_dataset("glue", self.task_name)
         self.max_length = max_len
